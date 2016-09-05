@@ -1,5 +1,9 @@
 import java.io.*;
 
+//TODO
+//jedno załączenie wszystkie piosenki nowe/nowe i stare
+//double click na ikonkę generatora i wsyzstko się robi
+
 public class HTMLGenerator {
     private static String inputTextPath = "";
     private static String title = "";
