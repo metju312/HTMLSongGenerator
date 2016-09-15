@@ -26,6 +26,11 @@ public class HTMLGenerator {
         writer.write("<head>");
         writer.write("<title>" + title + "</title>");
         writer.write("<meta charset=\"UTF-8\">");
+        writer.write("<style> " +
+                "p.ex1 {\n" +
+                "    margin-left: 50px;\n" +
+                "}\n" +
+                "</style>");
         writer.write("<link rel=\"shortcut icon\" type=\"image/png\" href=\"/guitar.png\"/>\n");
         writer.write("<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n" +
                 "<link rel=\"stylesheet\" href=\"http://www.w3schools.com/lib/w3.css\">\n" +
@@ -39,6 +44,7 @@ public class HTMLGenerator {
         writer.write("<a href=\"" + "/" + "\">" + "Home" + "</a></br>");
         writer.write("</header>");
         generateTheRest(writer, path, iframeWidth, iframeHeight);
+        writer.write("</p>");
         writer.write("</body>");
         writer.write("</html>");
         writer.close();
@@ -91,6 +97,7 @@ public class HTMLGenerator {
     private void writeToHtml(Writer writer, BufferedReader bufferedReader, Integer iframeWidth, Integer iframeHeight) throws IOException {
         String line = "";
         String previousLine = "";
+        boolean shouldDoDiv2 = true;
         while ((line = bufferedReader.readLine()) != null) {
             if(line.contains("iframe")){
                 line = line.replaceAll("width=\"[0-9]+\"", "width=\"" + iframeWidth + "\"");
@@ -101,7 +108,17 @@ public class HTMLGenerator {
                 line = bufferedReader.readLine();
                 writer.write("</br><a href=\""+previousLine+"\">"+line+"</a>");
             }else{
-                writer.write("</br>" + line);
+                if(shouldDoDiv2) {
+                    if(!line.matches("^/s")){
+                        writer.write("</br>");
+                        writer.write("</br>");
+                        writer.write("<p class=\"ex1\">");
+                        writer.write(line);
+                        shouldDoDiv2 = false;
+                    }
+                }else{
+                    writer.write(line+ "</br>");
+                }
             }
         }
     }
